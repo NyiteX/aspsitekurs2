@@ -1,0 +1,35 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+    <div class="wrapper login-1">
+        <div class="containerLogin">
+            <div class="col-left">
+                <div class="login-text">
+                    <h2>Welcome Back</h2>
+                    <p>Create your account.<br>It's totally free.</p>
+                    <a class="btn" href="">Sign Up</a>
+                </div>
+            </div>
+            <div class="col-right">
+                <div class="login-form">
+                    <h2>Login</h2>
+                    <form asp-controller="Auth" asp-action="Login">
+                        <p>
+                            <label>Login<span>*</span></label>
+                            <input type="text" placeholder="Login" required>
+                        </p>
+                        <p>
+                            <label>Password<span>*</span></label>
+                            <input type="password" placeholder="Password" required>
+                        </p>
+                        <p>
+                            <input type="submit" value="Sing In" />
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
