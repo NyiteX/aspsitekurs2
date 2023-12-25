@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Xml.Linq;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
 
 namespace aspsitekurs2.Controllers
 {
@@ -29,9 +32,9 @@ namespace aspsitekurs2.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(string name, string password)
+        public async Task<IActionResult> Login(LoginModel user)
         {
-            var loginSuccess = await Login_method(name, password);
+            var loginSuccess = await Login_method(user);
 
             if (!loginSuccess)
             {
@@ -53,22 +56,21 @@ namespace aspsitekurs2.Controllers
         [HttpGet]
         public IActionResult Registration()
         {
-            return View("Registration");
+            return View(new UserModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Registration(string name, string password, string email)
+        public async Task<IActionResult> Registration(UserModel user)
         {
-            byte[] pic;
-            string imagePath = "Pictures/2.ico";
-            using (FileStream fs = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+            if (!ModelState.IsValid)
             {
-                pic = new byte[fs.Length];
-                await fs.ReadAsync(pic, 0, pic.Length);
+                return View(new UserModel());
             }
-
-            UserModel user = new UserModel(Id: null, Login: name, Password: HashClass.ToSHA256(password),
-                                            Email: email, Pic: pic);
+                //default icon
+                user.Pic = "Pictures/2.ico";
+            
+            user.Password = HashClass.ToSHA256(user.Password);
+            user.isAdmin = false;
 
             _context.User.Add(user);
             await _context.SaveChangesAsync();
@@ -80,12 +82,16 @@ namespace aspsitekurs2.Controllers
         //
         // My functions
         //
-        async Task<bool> Login_method(string name, string password)
+        async Task<bool> Login_method(LoginModel user)
         {
-            bool f = _context.User.Any(user => user.Login == name && user.Password == HashClass.ToSHA256(password));
-            if (!f)
+            if (!_context.User.Any(usertmp => usertmp.Name == user.Name))
             {
-                ModelState.AddModelError("", "Wrong login or password.");
+                ModelState.AddModelError("", "Wrong name.");
+                return false;
+            }
+            if (!_context.User.Any(usertmp => usertmp.Name == user.Name && usertmp.Password == HashClass.ToSHA256(user.Password)))
+            {
+                ModelState.AddModelError("", "Wrong password.");
                 return false;
             }
 
@@ -97,8 +103,9 @@ namespace aspsitekurs2.Controllers
             var claims = new List<Claim>
             {
                 /*new Claim(ClaimTypes.NameIdentifier, userId.ToString()),*/
-                new Claim(ClaimTypes.Name, name),
-                new Claim(ClaimTypes.Email, HashClass.ToSHA256(password))
+                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.Email, HashClass.ToSHA256(user.Password)),
+                new Claim(ClaimTypes.Role, "User"),
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -107,6 +114,14 @@ namespace aspsitekurs2.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
             return true;
+        }
+        [HttpGet]
+        public async Task<IActionResult> VerifyUniqueName(string name)
+        {
+            await Console.Out.WriteLineAsync("PROVERKA");
+            await Console.Out.WriteLineAsync("PROVERKA");
+            var isUnique = await _context.User.AllAsync(u => u.Name != name);
+            return Json(isUnique);
         }
 
     }

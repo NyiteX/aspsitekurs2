@@ -1,6 +1,9 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model UserModel
+
+
 
 <!-- Navbar Start -->
 <div class="container-fluid bg-white sticky-top">
@@ -41,11 +44,12 @@
 <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
     <div class="container text-center py-5">
         <h1 class="display-2 text-dark mb-4 animated slideInDown">Tea Store</h1>
-         <nav aria-label="breadcrumb animated slideInDown">
-        <ol class="breadcrumb justify-content-center mb-0">
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb justify-content-center mb-0">
                 <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
-                <li class="breadcrumb-item text-dark">Login</a></li>
-        </ol>
+                <li class="breadcrumb-item"><a asp-controller="Auth" asp-action="Login">Login</a></li>
+                <li class="breadcrumb-item text-dark">Registration</a></li>
+            </ol>
         </nav>
     </div>
 </div>
@@ -57,33 +61,77 @@
         <div class="col-left">
             <div class="login-text">
                 <h2><img src="/img/logo.png" alt="Logo"></h2>
-                @*<p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada vel libero vitae eleifend. Fusce tristique ipsum lorem.
-                </p>
-                <a class="btn" href="">Read More</a>*@
+                
+                <a class="btn" asp-controller="Auth" asp-action="Login">Back to Login</a>
             </div>
         </div>
         <div class="col-right">
             <div class="login-form">
-                <h2>Login</h2>
-                <form asp-controller="Auth" asp-action="Login" method="post">
+                <h2>Registration</h2>
+                <form asp-controller="Auth" asp-action="Registration" method="post">
                     <p>
-                        <input type="text" placeholder="Username" required>
+                        <input type="text" placeholder="Username" asp-for="Name" required>
+                         <span asp-validation-for="Name" class="text-danger"></span>
                     </p>
                     <p>
-                        <input type="password" placeholder="Password" required>
+                        <input type="email" placeholder="Email" asp-for="Email" required>
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </p>
                     <p>
-                        <input class="btn" type="submit" value="Sing In" />
+                        <input type="password" placeholder="Password" asp-for="Password" id="tmppass1" required>
+                        <span asp-validation-for="Password" class="text-danger"></span>
                     </p>
                     <p>
-                        <a asp-controller="Auth" asp-action="Registration">Create an account.</a>
+                        <input type="password" placeholder="Repeat password" id="tmppass2" required>
+                    </p>
+                    <p>
+                        <input class="btn" type="submit" id="tmpregbtn" value="Sing Up" disabled/>
                     </p>
                 </form>
+                <p id="msg">
+                    Passwords do not match
+                </p>
             </div>
         </div>
     </div>
 
 </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var tmppass1 = document.getElementById('tmppass1');
+        var tmppass2 = document.getElementById('tmppass2');
+        var tmpregbtn = document.getElementById('tmpregbtn');
+        var msg = document.getElementById('msg');
+
+        tmppass2.addEventListener('input', function () {
+            var pass1Value = tmppass1.value;
+            var pass2Value = tmppass2.value;
+
+            if(pass1Value === "" || pass2Value === "") {
+                tmppass1.style.border = '';
+                tmppass2.style.border = '';
+                tmpregbtn.disabled = false;
+                msg.style.opacity = 0;
+            }
+            else {
+                if (pass1Value !== pass2Value) {
+                    tmppass1.style.border = '2px solid red';
+                    tmppass2.style.border = '2px solid red';
+                    tmpregbtn.disabled = true;
+                    msg.style.opacity = 1;
+                } else {
+                    tmppass1.style.border = '';
+                    tmppass2.style.border = '';
+                    tmpregbtn.disabled = false;
+                    msg.style.opacity = 0;
+                }
+            }
+
+            
+        });
+    });
+</script>
 
 
