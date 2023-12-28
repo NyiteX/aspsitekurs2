@@ -66,8 +66,23 @@ namespace aspsitekurs2.Controllers
             {
                 return View(new UserModel());
             }
-                //default icon
-                user.Pic = "Pictures/2.ico";
+
+            var isUniqueName = _context.User.All(u => u.Name != user.Name);
+            var isUniqueEmail = _context.User.All(u => u.Email != user.Email);
+
+            if (!isUniqueName)
+            {
+                ModelState.AddModelError(nameof(user.Name), "This name is already in use.");
+                return View(user);
+            }
+            else if(!isUniqueEmail)
+            {
+                ModelState.AddModelError(nameof(user.Email), "This email is already in use.");
+                return View(user);
+            }
+
+            //default icon
+            user.Pic = "Pictures/2.ico";
             
             user.Password = HashClass.ToSHA256(user.Password);
             user.isAdmin = false;
@@ -115,13 +130,12 @@ namespace aspsitekurs2.Controllers
 
             return true;
         }
-        [HttpGet]
-        public async Task<IActionResult> VerifyUniqueName(string name)
+        public async Task<bool> VerifyUniqueName(string name)
         {
             await Console.Out.WriteLineAsync("PROVERKA");
             await Console.Out.WriteLineAsync("PROVERKA");
             var isUnique = await _context.User.AllAsync(u => u.Name != name);
-            return Json(isUnique);
+            return isUnique;
         }
 
     }

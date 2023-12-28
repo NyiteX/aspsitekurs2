@@ -9,7 +9,6 @@ namespace aspsitekurs2.Models
 
         [Required(ErrorMessage = "Name is required")]
         [RegularExpression("^[a-zA-Z0-9]+$", ErrorMessage = "Invalid name format")]
-        [Remote(action: "VerifyUniqueName", controller: "Auth", ErrorMessage = "This name is already in use.")]
         public string? Name { get; set; }
 
         [Required(ErrorMessage = "Email is required")]
