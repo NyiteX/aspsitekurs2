@@ -38,10 +38,10 @@ namespace aspsitekurs2.Controllers
 
             if (!loginSuccess)
             {
-                return View("Login");
+                return View(user);
             }
 
-            return RedirectToAction("Index", "Account");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -101,12 +101,12 @@ namespace aspsitekurs2.Controllers
         {
             if (!_context.User.Any(usertmp => usertmp.Name == user.Name))
             {
-                ModelState.AddModelError("", "Wrong name.");
+                ModelState.AddModelError(nameof(user.Name), "Wrong name.");
                 return false;
             }
             if (!_context.User.Any(usertmp => usertmp.Name == user.Name && usertmp.Password == HashClass.ToSHA256(user.Password)))
             {
-                ModelState.AddModelError("", "Wrong password.");
+                ModelState.AddModelError(nameof(user.Password), "Wrong password.");
                 return false;
             }
 
@@ -132,8 +132,6 @@ namespace aspsitekurs2.Controllers
         }
         public async Task<bool> VerifyUniqueName(string name)
         {
-            await Console.Out.WriteLineAsync("PROVERKA");
-            await Console.Out.WriteLineAsync("PROVERKA");
             var isUnique = await _context.User.AllAsync(u => u.Name != name);
             return isUnique;
         }
