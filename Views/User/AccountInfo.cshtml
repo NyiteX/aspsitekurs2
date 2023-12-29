@@ -77,18 +77,27 @@
         <nav aria-label="breadcrumb animated slideInDown">
             <ol class="breadcrumb justify-content-center mb-0">
                 <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
-                <li class="breadcrumb-item text-dark">@Model.Name</li>
+                <li class="breadcrumb-item text-dark">Account</li>
             </ol>
         </nav>
     </div>
 </div>
 <!-- Page Header End -->
-
-
+    @if (Model != null)
+{
+    <div class="d-flex flex-wrap justify-content-center">
+        <img class="rounded float-left" src="/api/images/@Model.Pic" />
+            <div class="d-flex flex-column justify-content-center ">
+        
+        <p>@Model.Name</p>
+        <p>@Model.Email</p>
+        <input type="password" placeholder="Password"></input>
+    </div>
+ </div>
+}
 
 
 
 
 <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
-
 

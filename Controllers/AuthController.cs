@@ -83,7 +83,7 @@ namespace aspsitekurs2.Controllers
             }
 
             //default icon
-            user.Pic = "Pictures/2.ico";
+            user.Pic = "2.ico";
             
             user.Password = HashClass.ToSHA256(user.Password);
             user.isAdmin = false;
