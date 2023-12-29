@@ -24,10 +24,23 @@ namespace aspsitekurs2.Controllers
 
         [HttpGet]
         [Authorize]
-        public IActionResult GetUsers()
+        public async Task<IActionResult> Users()
         {
-            List<UserModel> users = _context.User.ToList();
+            List<UserModel> users = await _context.User.ToListAsync();
             return View(users);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AccountInfo(string username)
+        {
+            if(!User.Identities.Any(u => u.Name == username)) 
+            {
+                return RedirectToAction("Login","Auth");
+            }
+            var user = await _context.User.FirstOrDefaultAsync(u => u.Name == username);
+
+            return View(user);
         }
     }
 }

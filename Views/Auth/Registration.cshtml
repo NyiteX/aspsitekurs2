@@ -19,7 +19,18 @@
                 <div class="navbar-nav ms-auto">
                     <a class="nav-item nav-link" asp-controller="Home" asp-action="Index">Home</a>
                     <a href="about.html" class="nav-item nav-link">About</a>
-                    <a class="nav-item nav-link active" asp-controller="Auth" asp-action="Login">Login</a>
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a class="nav-item nav-link" asp-controller="Auth" asp-action="Login">Login</a>
+                    }
+                    else
+                    {
+                        <form asp-controller="Auth" asp-action="Logout" method="post">
+                            @Html.AntiForgeryToken()
+
+                            <button type="submit" class="nav-item nav-link btn">Logout</button>
+                        </form>
+                    }
                     <a href="store.html" class="nav-item nav-link ">Store</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>

@@ -46,6 +46,7 @@ namespace aspsitekurs2.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -110,14 +111,14 @@ namespace aspsitekurs2.Controllers
                 return false;
             }
 
-            /* int? userId = _context.Users
-                         .Where(user => user.Login == name && user.Password == HashClass.ToSHA256(password))
-                         .Select(user => user.Id)
-                         .FirstOrDefault();*/
+            int? userId = _context.User
+                        .Where(u => u.Name == user.Name && user.Password == HashClass.ToSHA256(user.Password))
+                        .Select(user => user.ID)
+                        .FirstOrDefault();
 
             var claims = new List<Claim>
             {
-                /*new Claim(ClaimTypes.NameIdentifier, userId.ToString()),*/
+                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim(ClaimTypes.Email, HashClass.ToSHA256(user.Password)),
                 new Claim(ClaimTypes.Role, "User"),
