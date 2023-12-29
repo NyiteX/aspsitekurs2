@@ -54,7 +54,8 @@
                     </a>
 
                     <form asp-controller="User" asp-action="AccountInfo" method="post">
-                        <input type="hidden" value="@User.Identity.Name" name="username" />
+                        <input type="hidden" value="@if (User.Identity.IsAuthenticated)
+                            {@User.Claims.ElementAtOrDefault(0).Value}" name="id" />
                         <button type="submit" class="my-auto btn">
                             <i class="fas fa-user fa-2x"></i>
                             @if (User.Identity.IsAuthenticated)

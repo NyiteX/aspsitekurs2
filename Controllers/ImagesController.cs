@@ -9,9 +9,6 @@ namespace aspsitekurs2.Controllers
         public IActionResult GetImage(string imageName)
         {
             var imagePath = Path.Combine("Pictures/", imageName);
-            Console.WriteLine("\n"+imagePath);
-            Console.WriteLine(imagePath);
-            Console.WriteLine(imagePath + "\n");
             if (!System.IO.File.Exists(imagePath))
             {
                 return NotFound();

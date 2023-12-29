@@ -111,17 +111,18 @@ namespace aspsitekurs2.Controllers
                 return false;
             }
 
-            int? userId = _context.User
-                        .Where(u => u.Name == user.Name && user.Password == HashClass.ToSHA256(user.Password))
-                        .Select(user => user.ID)
+            var currentUser = _context.User
+                        .Where(u => u.Name == user.Name && u.Password == HashClass.ToSHA256(user.Password))
                         .FirstOrDefault();
+
+            var role = "User";
+            if (currentUser.isAdmin == true) { role = "Admin"; };
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-                new Claim(ClaimTypes.Name, user.Name),
-                new Claim(ClaimTypes.Email, HashClass.ToSHA256(user.Password)),
-                new Claim(ClaimTypes.Role, "User"),
+                new Claim(ClaimTypes.NameIdentifier, currentUser.ID.ToString()),
+                new Claim(ClaimTypes.Name, currentUser.Name), 
+                new Claim(ClaimTypes.Role, role),
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

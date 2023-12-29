@@ -1,0 +1,32 @@
+﻿@model LoginModel
+
+
+<div class="d-flex justify-content-center login-3 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="containerLogin">
+        <div class="col-left">
+            <div class="login-text">
+                <h2><img src="/img/logo.png" alt="Logo"></h2>
+                <a class="btn" asp-controller="Auth" asp-action="Registration">Create an account.</a>
+
+            </div>
+        </div>
+        <div class="col-right">
+            <div class="login-form">
+                <h2>Login</h2>
+                <form asp-controller="Auth" asp-action="Login" method="post">
+                    <p>
+                        <input type="text" placeholder="Username" asp-for="Name" required>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </p>
+                    <p>
+                        <input type="password" placeholder="Password" asp-for="Password" required>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </p>
+                    <p>
+                        <input class="btn" type="submit" value="Sing In" />
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

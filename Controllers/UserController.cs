@@ -23,7 +23,7 @@ namespace aspsitekurs2.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Users()
         {
             List<UserModel> users = await _context.User.ToListAsync();
@@ -32,13 +32,15 @@ namespace aspsitekurs2.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> AccountInfo(string username)
+        public async Task<IActionResult> AccountInfo(int id)
         {
-            if(!User.Identities.Any(u => u.Name == username)) 
+            await Console.Out.WriteLineAsync(id.ToString());
+            await Console.Out.WriteLineAsync(User.Claims.ElementAtOrDefault(0).Value);
+            if (!User.Identities.Any(u => u.Claims.ElementAtOrDefault(0).Value == id.ToString())) 
             {
                 return RedirectToAction("Login","Auth");
             }
-            var user = await _context.User.FirstOrDefaultAsync(u => u.Name == username);
+            var user = await _context.User.FirstOrDefaultAsync(u => u.ID == id);
 
             return View(user);
         }
