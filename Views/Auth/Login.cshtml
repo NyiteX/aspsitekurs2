@@ -1,6 +1,8 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model LoginModel
+
 
 <!-- Navbar Start -->
 <div class="container-fluid bg-white sticky-top">
@@ -51,16 +53,13 @@
 </div>
 <!-- Page Header End -->
 
-
-<div class="wrapper login-3">
+<div class="d-flex justify-content-center login-3 wow fadeInUp" data-wow-delay="0.1s">
     <div class="containerLogin">
         <div class="col-left">
             <div class="login-text">
                 <h2><img src="/img/logo.png" alt="Logo"></h2>
-                @*<p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec malesuada vel libero vitae eleifend. Fusce tristique ipsum lorem.
-                </p>
-                <a class="btn" href="">Read More</a>*@
+                <a class="btn" asp-controller="Auth" asp-action="Registration">Create an account.</a>
+
             </div>
         </div>
         <div class="col-right">
@@ -68,22 +67,21 @@
                 <h2>Login</h2>
                 <form asp-controller="Auth" asp-action="Login" method="post">
                     <p>
-                        <input type="text" placeholder="Username" required>
+                        <input type="text" placeholder="Username" asp-for="Name" required>
+                        <span asp-validation-for="Name" class="text-danger"></span>
                     </p>
                     <p>
-                        <input type="password" placeholder="Password" required>
+                        <input type="password" placeholder="Password" asp-for="Password" required>
+                        <span asp-validation-for="Password" class="text-danger"></span>
                     </p>
                     <p>
                         <input class="btn" type="submit" value="Sing In" />
-                    </p>
-                    <p>
-                        <a asp-controller="Auth" asp-action="Registration">Create an account.</a>
                     </p>
                 </form>
             </div>
         </div>
     </div>
-
 </div>
 
+<a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
 

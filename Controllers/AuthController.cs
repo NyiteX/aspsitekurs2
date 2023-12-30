@@ -38,14 +38,15 @@ namespace aspsitekurs2.Controllers
 
             if (!loginSuccess)
             {
-                return View("Login");
+                return View(user);
             }
 
-            return RedirectToAction("Index", "Account");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -66,8 +67,23 @@ namespace aspsitekurs2.Controllers
             {
                 return View(new UserModel());
             }
-                //default icon
-                user.Pic = "Pictures/2.ico";
+
+            var isUniqueName = _context.User.All(u => u.Name != user.Name);
+            var isUniqueEmail = _context.User.All(u => u.Email != user.Email);
+
+            if (!isUniqueName)
+            {
+                ModelState.AddModelError(nameof(user.Name), "This name is already in use.");
+                return View(user);
+            }
+            else if(!isUniqueEmail)
+            {
+                ModelState.AddModelError(nameof(user.Email), "This email is already in use.");
+                return View(user);
+            }
+
+            //default icon
+            user.Pic = "2.ico";
             
             user.Password = HashClass.ToSHA256(user.Password);
             user.isAdmin = false;
@@ -86,26 +102,27 @@ namespace aspsitekurs2.Controllers
         {
             if (!_context.User.Any(usertmp => usertmp.Name == user.Name))
             {
-                ModelState.AddModelError("", "Wrong name.");
+                ModelState.AddModelError(nameof(user.Name), "Wrong name.");
                 return false;
             }
             if (!_context.User.Any(usertmp => usertmp.Name == user.Name && usertmp.Password == HashClass.ToSHA256(user.Password)))
             {
-                ModelState.AddModelError("", "Wrong password.");
+                ModelState.AddModelError(nameof(user.Password), "Wrong password.");
                 return false;
             }
 
-            /* int? userId = _context.Users
-                         .Where(user => user.Login == name && user.Password == HashClass.ToSHA256(password))
-                         .Select(user => user.Id)
-                         .FirstOrDefault();*/
+            var currentUser = _context.User
+                        .Where(u => u.Name == user.Name && u.Password == HashClass.ToSHA256(user.Password))
+                        .FirstOrDefault();
+
+            var role = "User";
+            if (currentUser.isAdmin == true) { role = "Admin"; };
 
             var claims = new List<Claim>
             {
-                /*new Claim(ClaimTypes.NameIdentifier, userId.ToString()),*/
-                new Claim(ClaimTypes.Name, user.Name),
-                new Claim(ClaimTypes.Email, HashClass.ToSHA256(user.Password)),
-                new Claim(ClaimTypes.Role, "User"),
+                new Claim(ClaimTypes.NameIdentifier, currentUser.ID.ToString()),
+                new Claim(ClaimTypes.Name, currentUser.Name), 
+                new Claim(ClaimTypes.Role, role),
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -115,13 +132,10 @@ namespace aspsitekurs2.Controllers
 
             return true;
         }
-        [HttpGet]
-        public async Task<IActionResult> VerifyUniqueName(string name)
+        public async Task<bool> VerifyUniqueName(string name)
         {
-            await Console.Out.WriteLineAsync("PROVERKA");
-            await Console.Out.WriteLineAsync("PROVERKA");
             var isUnique = await _context.User.AllAsync(u => u.Name != name);
-            return Json(isUnique);
+            return isUnique;
         }
 
     }

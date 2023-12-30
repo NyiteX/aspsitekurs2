@@ -23,11 +23,26 @@ namespace aspsitekurs2.Controllers
         }
 
         [HttpGet]
-        [Authorize]
-        public IActionResult GetUsers()
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Users()
         {
-            List<UserModel> users = _context.User.ToList();
+            List<UserModel> users = await _context.User.ToListAsync();
             return View(users);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> AccountInfo(int id)
+        {
+            await Console.Out.WriteLineAsync(id.ToString());
+            await Console.Out.WriteLineAsync(User.Claims.ElementAtOrDefault(0).Value);
+            if (!User.Identities.Any(u => u.Claims.ElementAtOrDefault(0).Value == id.ToString())) 
+            {
+                return RedirectToAction("Login","Auth");
+            }
+            var user = await _context.User.FirstOrDefaultAsync(u => u.ID == id);
+
+            return View(user);
         }
     }
 }
