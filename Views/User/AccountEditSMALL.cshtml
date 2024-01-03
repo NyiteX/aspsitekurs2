@@ -1,0 +1,41 @@
+﻿@model aspsitekurs2.Models.UserEditModel
+
+<div class="d-flex justify-content-center" data-wow-delay="0.1s" >
+    <form asp-controller="User" asp-action="Update" method="post" enctype="multipart/form-data">
+        <input type="hidden" value="@Model.ID" asp-for="ID" />
+
+        <div class="d-flex flex-wrap" style="gap: 50px">
+
+            <div class="d-flex flex-column" >
+                <p>
+                    <label>@Model.Name</label><br />
+                    <input type="text" class="form-control" placeholder="New name" value="" asp-for="Name"></input>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </p>
+                <p>
+                    <label>@Model.Email</label><br />
+                    <input type="email" class="form-control" placeholder="New email" value="" asp-for="Email"></input>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </p>
+                <p>
+                    <input type="password" class="form-control" placeholder="New Password" asp-for="Password" />
+                </p>
+                </div>
+
+                <div class="d-flex flex-column">
+                    <img class="rounded float-left" id="profileImage" src="/api/images/Users/@Model.Pic" />
+                        <label class="file-upload">
+                            <input type="file" asp-for="NewPic" />
+                            <div class="custom-input">
+                                Choose image...
+                            </div>
+                        </label>
+
+                </div>
+
+            </div>
+
+        <button class="btn btn-outline-primary" type="submit">Save changes</button>
+    </form>
+
+</div>

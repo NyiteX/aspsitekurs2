@@ -68,8 +68,8 @@ namespace aspsitekurs2.Controllers
                 return View(new UserModel());
             }
 
-            var isUniqueName = _context.User.All(u => u.Name != user.Name);
-            var isUniqueEmail = _context.User.All(u => u.Email != user.Email);
+            var isUniqueName = await _context.User.AllAsync(u => u.Name != user.Name);
+            var isUniqueEmail = await _context.User.AllAsync(u => u.Email != user.Email);
 
             if (!isUniqueName)
             {

@@ -1,7 +1,9 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model UserModel
+
+
+@model aspsitekurs2.ViewModels.UserViewModel
 
 
 
@@ -84,17 +86,20 @@
 </div>
 <!-- Page Header End -->
 
-@if (Model != null)
+@if (Model != null && Model.UserInfo != null)
 {
-    <div class="d-flex flex-wrap justify-content-center wow fadeInUp" data-wow-delay="0.1s" style="gap: 50px">
-    <img class="rounded float-left" id="profileImage" src="/api/images/@Model.Pic" />
-    <div class="d-flex flex-column justify-content-center">
-        <p id="name">@Model.Name</p>
-        <p id="email">@Model.Email</p>
-        <button id="editButton" onclick="enableEditing()">Редактировать</button>
-        <button id="saveButton" onclick="saveChanges()" style="display:none;">Сохранить</button>
+    <div class="d-flex justify-content-center" style="padding-bottom: 50px">
+        <button class="btn btn-outline-primary active" id="btninfo" onclick="enableInfo()">Info</button>
+        <button class="btn btn-outline-primary" id="btnedit" onclick="enableEditing()">Edit</button>
     </div>
-</div>
+
+    <div id="info" style="display:block">
+        @Html.Partial("AccountInfoSMALL",Model.UserInfo)
+    </div>
+    <div id="edit" style="display:none">
+        @Html.Partial("AccountEditSMALL",Model.UserEdit)
+    </div>
+
 }
 
 
@@ -104,16 +109,15 @@
 
 <script>
     function enableEditing() {
-        document.getElementById('name').contentEditable = true;
-        document.getElementById('email').contentEditable = true;
-        document.getElementById('editButton').style.display = 'none';
-        document.getElementById('saveButton').style.display = 'block';
+        document.getElementById('info').style.display = 'none';
+        document.getElementById('edit').style.display = 'block';
+        document.getElementById('btninfo').classList.remove('active');
+        document.getElementById('btnedit').classList.add('active');
     }
-
-    function saveChanges() {
-        document.getElementById('name').contentEditable = false;
-        document.getElementById('email').contentEditable = false;
-        document.getElementById('editButton').style.display = 'block';
-        document.getElementById('saveButton').style.display = 'none';
+    function enableInfo(){
+        document.getElementById('info').style.display = 'block';
+        document.getElementById('edit').style.display = 'none';
+        document.getElementById('btninfo').classList.add('active');
+        document.getElementById('btnedit').classList.remove('active');
     }
 </script>
