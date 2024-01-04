@@ -1,6 +1,6 @@
 ﻿@model aspsitekurs2.Models.UserEditModel
 
-<div class="d-flex flex-column align-items-center" data-wow-delay="0.1s" >
+<div class="d-flex justify-content-center" data-wow-delay="0.1s" >
     <form asp-controller="User" asp-action="Update" method="post" enctype="multipart/form-data">
         <input type="hidden" value="@Model.ID" asp-for="ID" />
 
@@ -37,29 +37,5 @@
 
         <button class="btn btn-outline-primary" type="submit">Save changes</button>
     </form>
-    <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-        <div class="h-100 d-flex align-items-center justify-content-center" style="min-height: 300px;">
-            <button type="button" class="btn-danger" data-bs-toggle="modal"
-                    data-bs-target="#videoModal">
-                Delete account.
-            </button>
-        </div>
-    </div>
-</div>
 
-
-
-
-<div class="modal modal-video fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content rounded-0">
-            <div class="modal-header">
-                <h3 class="modal-title" id="exampleModalLabel">Are you sure you want to delete your account?</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body d-flex justify-content-center">
-                <btn class="btn btn-outline-danger">Delete account</btn>
-            </div>
-        </div>
-    </div>
 </div>

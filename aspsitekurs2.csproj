@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <Folder Include="Pictures\Products\" />
-    <Folder Include="Views\Product\" />
   </ItemGroup>
 
 </Project>
