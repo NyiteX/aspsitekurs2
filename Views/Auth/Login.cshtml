@@ -19,20 +19,30 @@
                     <a class="nav-item nav-link" asp-controller="Home" asp-action="Index">Home</a>
                     <a href="about.html" class="nav-item nav-link">About</a>
                     <a class="nav-item nav-link active" asp-controller="Auth" asp-action="Login">Login</a>
-                    <a href="store.html" class="nav-item nav-link ">Store</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                        <div class="dropdown-menu bg-light rounded-0 m-0">
-                            <a href="feature.html" class="dropdown-item">Features</a>
-                            <a href="blog.html" class="dropdown-item">Blog Article</a>
-                            <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                            <a href="404.html" class="dropdown-item">404 Page</a>
-                        </div>
-                    </div>
+                    
                     <a href="contact.html" class="nav-item nav-link">Contact</a>
                 </div>
-                <div class="border-start ps-4 d-none d-lg-block">
-                    <button type="button" class="btn btn-sm p-0"><i class="fa fa-search"></i></button>
+                <div class="d-flex m-3 me-0">
+
+                    <a asp-controller="User" asp-action="AccountInfo" class="position-relative me-4 my-auto">
+                        <i class="fa fa-shopping-bag fa-2x"></i>
+                        <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                    </a>
+
+                    <form asp-controller="User" asp-action="AccountInfo" method="post">
+                        <input type="hidden" value="@if (User.Identity.IsAuthenticated)
+                            {
+                        @User.Claims.ElementAtOrDefault(0).Value
+}" name="id" />
+                        <button type="submit" class="my-auto btn">
+                            <i class="fas fa-user fa-2x"></i>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <span>@User.Identity.Name</span>
+                            }
+                        </button>
+                    </form>
+
                 </div>
             </div>
         </nav>
