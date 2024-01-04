@@ -11,10 +11,16 @@
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <img class="img-fluid" src="/img/logo.png" alt="Logo">
                 </a>
+                 @if (User.Identity.IsAuthenticated)
+                 {
+                     if (User.Claims.ElementAtOrDefault(2).Value == "Admin")
+                        {
+                            <button class="btn btn-outline-success" style="margin-left: 200px">Admin panel</button>
+                        }
+                 }
                 <button type="button" class="navbar-toggler ms-auto me-0" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-            <button>Admin panel</button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto">
                     <a class="nav-item nav-link active" asp-controller="Home" asp-action="Index">Home</a>

@@ -7,6 +7,13 @@
             <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                 <img class="img-fluid" src="/img/logo.png" alt="Logo">
             </a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.Claims.ElementAtOrDefault(2).Value == "Admin")
+                {
+                    <button class="btn btn-outline-success" style="margin-left: 200px">Admin panel</button>
+                }
+            }
             <button type="button" class="navbar-toggler ms-auto me-0" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -14,7 +21,7 @@
                 <div class="navbar-nav ms-auto">
                     <a class="nav-item nav-link" asp-controller="Home" asp-action="Index">Home</a>
                     <a href="about.html" class="nav-item nav-link">About</a>
-                    <a class="nav-item nav-link active" asp-controller="Auth" asp-action="Login">Login</a>
+                    <a class="nav-item nav-link" asp-controller="Auth" asp-action="Login">Login</a>
                     
                     <a href="contact.html" class="nav-item nav-link">Contact</a>
                 </div>
@@ -46,7 +53,7 @@
 <!-- Page Header Start -->
 <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
     <div class="container text-center py-5">
-        <h1 class="display-2 text-dark mb-4 animated slideInDown">Tea Store</h1>
+        <h1 class="display-2 text-dark mb-4 animated slideInDown">Error</h1>
         <nav aria-label="breadcrumb animated slideInDown">
             <ol class="breadcrumb justify-content-center mb-0">
                 <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
