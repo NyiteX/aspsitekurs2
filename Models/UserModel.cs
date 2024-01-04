@@ -12,6 +12,7 @@ namespace aspsitekurs2.Models
         public string? Name { get; set; }
 
         [Required(ErrorMessage = "Email is required")]
+        [RegularExpression("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", ErrorMessage = "Invalid email format")]
         [EmailAddress(ErrorMessage = "Invalid email format")]
         public string? Email { get; set; }
 

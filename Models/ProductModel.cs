@@ -10,8 +10,8 @@ namespace aspsitekurs2.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Price is required")]
-        [Range(0.01, float.MaxValue, ErrorMessage = "Price must be greater than 0")]
-        public float Price { get; set; }
+        [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than 0")]
+        public double Price { get; set; }
 
         [Required(ErrorMessage = "Count is required")]
         [Range(1, int.MaxValue, ErrorMessage = "Count must be greater than 0")]

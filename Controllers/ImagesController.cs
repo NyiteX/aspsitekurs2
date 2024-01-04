@@ -5,10 +5,11 @@ namespace aspsitekurs2.Controllers
     [Route("api/images")]
     public class ImagesController : ControllerBase
     {
-        [HttpGet("{imageName}")]
-        public IActionResult GetImage(string imageName)
+        [HttpGet("{folder}/{imageName}")]
+        public IActionResult GetImage(string folder, string imageName)
         {
-            var imagePath = Path.Combine("Pictures/", imageName);
+            string imagePath = Path.Combine($"Pictures/{folder}", imageName);
+
             if (!System.IO.File.Exists(imagePath))
             {
                 return NotFound();

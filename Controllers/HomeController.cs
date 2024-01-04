@@ -20,9 +20,11 @@ namespace aspsitekurs2.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            List<ProductModel> products = await _context.Product.ToListAsync();
+
+            return View(products);
         }
 
 

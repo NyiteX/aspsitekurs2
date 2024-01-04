@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Pictures\2.ico" />
+    <Resource Include="Pictures\Users\2.ico" />
   </ItemGroup>
 
   <ItemGroup>
