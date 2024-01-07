@@ -24,4 +24,12 @@
     <Folder Include="Pictures\Products\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\lib\chart\chart.min.js" />
+    <None Include="wwwroot\lib\tempusdominus\js\moment-timezone.min.js" />
+    <None Include="wwwroot\lib\tempusdominus\js\moment.min.js" />
+    <None Include="wwwroot\lib\tempusdominus\js\tempusdominus-bootstrap-4.js" />
+    <None Include="wwwroot\lib\tempusdominus\js\tempusdominus-bootstrap-4.min.js" />
+  </ItemGroup>
+
 </Project>

@@ -4,6 +4,7 @@ namespace aspsitekurs2.ViewModels
 {
     public class UserViewModel
     {
+        public List<UserModel> UserList { get; set; } = new List<UserModel>();
         public UserModel? UserInfo { get; set; } = null;
         public UserEditModel? UserEdit { get; set; } = new UserEditModel();
 
