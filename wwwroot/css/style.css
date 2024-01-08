@@ -48,12 +48,12 @@
     font-weight: 500;
 }
 
-.btn-primary,
+.btn-primary, .btn-danger,
 .btn-outline-primary:hover {
     color: var(--light);
 }
 
-.btn-secondary,
+.btn-secondary, .btn-danger,
 .btn-outline-secondary:hover {
     color: var(--dark);
 }

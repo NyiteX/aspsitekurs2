@@ -68,12 +68,9 @@
                         <span class="d-none d-lg-inline-flex">@Model.UserInfo.Name</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                        @*                            <a href="#" class="dropdown-item">My Profile</a>*@
                         <form class="dropdown-item" asp-controller="User" asp-action="AccountInfo" method="post">
                             <input type="hidden" value="@if (User.Identity.IsAuthenticated)
-                            {
-                            @User.Claims.ElementAtOrDefault(0).Value
-}" name="id" />
+                            {@User.Claims.ElementAtOrDefault(0).Value}" name="id" />
                             <button type="submit" class="dropdown-item">My profile</button>
                         </form>
                         <a asp-controller="Auth" asp-action="Logout" class="dropdown-item">Log Out</a>
@@ -82,6 +79,20 @@
             </div>
         </nav>
         <!-- Navbar End -->
+
+        <!-- Add Product Start -->
+        <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+            <div class="h-100 d-flex justify-content-center">
+                <button type="button" id="addbtn" class="btn-outline-success rounded-3" data-bs-toggle="modal"
+                        data-bs-target="#videoModal">
+                    New Product
+                </button>
+            </div>
+
+        </div>
+        
+        <!-- Add Product End -->
+
         <!-- Recent Sales Start -->
         <div class="container-fluid pt-4 px-4">
             <div class="bg-light text-center rounded p-4">
@@ -114,8 +125,12 @@
                                         <img src="/api/images/Products/@product.Pic" class="rounded" style="height: 70px" alt="">
                                     </td>
                                     <td>
-                                        <div>
-                                            <a class="btn btn-sm btn-primary" href="">Delete</a>
+                                        <div class="d-flex">
+                                            <form asp-action="DeleteProduct" asp-controller="AdminPanel" method="post">
+                                                <input type="hidden" value="@product.ID" name="ID">
+                                                <button type="submit" class="btn btn-sm btn-danger" href="">Delete</button>
+                                            </form>
+                                            
                                             <a class="btn btn-sm btn-primary" href="">Edit</a>
                                         </div>
                                     </td>
@@ -129,12 +144,43 @@
         </div>
         <!-- Recent Sales End -->
 
-        <!-- Add Product Start -->
-        @Html.Partial("~/Views/Product/ProductAddSMALL.cshtml", Model.ProductEdit)
-        <!-- Add Product End -->
-
     </div>
     <!-- Content End -->
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+    <div class="modal modal-video fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content rounded-0">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" onclick="clearProductEdit()"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex justify-content-center">
+                    @Html.Partial("~/Views/Product/ProductAddSMALL.cshtml", Model.ProductEdit)
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+    @if (Model.Errors != null && Model.Errors.Any())
+    {
+        <text>
+                document.getElementById("addbtn").click();
+        </text>
+    }
+    });
+
+    function clearProductEdit() {
+        Model.ProductEdit = new ProductEditModel();
+        var modal = document.getElementById('videoModal');
+        var modalBootstrap = new bootstrap.Modal(modal);
+        modalBootstrap.hide();
+    }
+</script>
