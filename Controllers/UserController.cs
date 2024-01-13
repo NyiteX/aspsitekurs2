@@ -21,13 +21,7 @@ namespace aspsitekurs2.Controllers
         }
 
 
-        [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Users()
-        {
-            List<UserModel> users = await _context.User.ToListAsync();
-            return View(users);
-        }
+        
 
         [HttpPost]
         [Authorize]

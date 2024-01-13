@@ -1,0 +1,51 @@
+﻿@model aspsitekurs2.Models.ProductEditModel
+
+<div class="d-flex flex-column align-items-center" data-wow-delay="0.1s">
+    <form asp-controller="AdminPanel" asp-action="AddProduct" method="post" enctype="multipart/form-data">
+        <input type="hidden" value="@Model.ID" asp-for="ID" />
+
+        <div class="d-flex flex-wrap" style="gap: 50px">
+
+            <div class="d-flex flex-column">
+                <p>
+                    <label>Name</label><br />
+                    <input type="text" class="form-control" placeholder="Name" value="" asp-for="Name"></input>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </p>
+                <p>
+                    <label>Price</label><br />
+                    <input type="number" class="form-control" placeholder="Price" value="" asp-for="Price"></input>
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </p>
+                <p>
+                    <label>Count</label><br />
+                    <input type="number" class="form-control" placeholder="Count" asp-for="Count" ></input>
+                    <span asp-validation-for="Count" class="text-danger"></span>
+                </p>
+                <p>
+                    <label>Description</label><br />
+                    <input type="text" class="form-control" placeholder="Description" asp-for="Description"></input>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </p>
+                <p>
+                    <label>Category</label><br />
+                    <input type="text" class="form-control" placeholder="Category" asp-for="Category"></input>
+                    <span asp-validation-for="Category" class="text-danger"></span>
+                </p>
+
+                <label class="file-upload">
+                    <input type="file" asp-for="NewPic" />
+                    <div class="custom-input">
+                        Choose image...
+                    </div>
+                </label>
+            </div>
+
+          
+
+        </div>
+
+        <button class="btn btn-outline-primary" type="submit" style="margin-bottom: 50px">Create product</button>
+    </form>
+    
+</div>
