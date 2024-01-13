@@ -83,7 +83,50 @@
         </nav>
         <!-- Navbar End -->
         <!-- Recent Sales Start -->
-       
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light text-center rounded p-4">
+
+                <div class="table-responsive">
+                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                        <thead>
+                            <tr class="text-dark">
+
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">isAdmin</th>
+                                <th scope="col">Picture</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Model.UserList)
+                            {
+                                <tr>
+
+                                    <td>@user.Name</td>
+                                    <td>@user.Email</td>
+                                    <td>@user.isAdmin</td>
+                                    <td>
+                                        <img src="/api/images/Users/@user.Pic" class="rounded" style="height: 70px" alt="">
+                                    </td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <form asp-action="DeleteUser" asp-controller="AdminPanel" method="post">
+                                                <input type="hidden" value="@user.ID" name="ID">
+                                                <button type="submit" class="btn btn-sm btn-danger" href="">Delete</button>
+                                            </form>
+
+                                            <a class="btn btn-sm btn-primary" href="">Edit</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
         <!-- Recent Sales End -->
 

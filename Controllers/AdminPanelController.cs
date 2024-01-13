@@ -148,5 +148,28 @@ namespace aspsitekurs2.Controllers
             return RedirectToAction("Products");
         }
 
+
+
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteUser(int ID)
+        {
+            var user = await _context.User.FirstOrDefaultAsync(v => v.ID == ID);
+            if (user != null)
+            {
+                string folderPath = Path.Combine("Pictures", "Users");
+                var oldPic = Path.Combine(folderPath, user.Pic);
+                if (System.IO.File.Exists(oldPic))
+                {
+                    if (user.Pic != "2.ico")
+                        System.IO.File.Delete(oldPic);
+                }
+
+                _context.User.Remove(user);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Users");
+        }
     }
 }
